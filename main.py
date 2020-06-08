@@ -1,0 +1,45 @@
+from data_loader.news_dataset_loader import NewsDatasetLoader
+from models.CNN_tagger_model import *
+from trainers.CNN_tagger_trainer import CNNModelTrainer
+from utils.config import processConfig
+from utils.dirs import createMissingDirectories
+from utils.args import get_args
+
+GLOVE_PATH = "C:/Users/rohan/Documents/coding/python/news-headline-tagger/glove.6B.300d.txt"
+MAX_SEQ_LEN = 300
+WV_DIM = 300
+NB_WORDS = 0
+
+
+def main():
+    try:
+        args = get_args()
+        config = processConfig(args.config)
+    except:
+        print("missing or invalid arguments")
+        exit(0)
+
+    createMissingDirectories([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir])
+
+    print("Create the data generator.")
+    data_loader = NewsDatasetLoader(config)
+    train_data, train_labels = data_loader.getTrainingData()
+    test_data, test_labels = data_loader.getTestData()
+
+    print("Creating model.")
+    glove_model, NB_WORDS = load_glove_model(GLOVE_PATH)
+    train_seq, test_seq, wv_mat = embeddingLayerBuild(glove_model, train_data, test_data, MAX_SEQ_LEN, WV_DIM, NB_WORDS)
+    model_class = ConvTaggerModel(config, MAX_SEQ_LEN, NB_WORDS, WV_DIM, wv_mat)
+    model = model_class.buildModel()
+
+    print("Create the trainer.")
+    print(type(train_seq))
+    print(type(train_labels))
+    trainer = CNNModelTrainer(model, train_seq, train_labels, config)
+
+    print("Start training the model.")
+    trainer.train()
+
+
+if __name__ == '__main__':
+    main()

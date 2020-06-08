@@ -1,4 +1,4 @@
-class BaseDataLoader(object):
+class AbstractDataLoader(object):
     def __init__(self, config):
         self.config = config
 

@@ -1,9 +1,9 @@
-class AbstractDataLoader(object):
-    def __init__(self, config):
+class AbstractTrainer(object):
+    def __init__(self, model, data, labels, config):
+        self.model = model
+        self.data = data
+        self.labels = labels
         self.config = config
 
-    def get_train_data(self):
-        raise NotImplementedError
-
-    def get_test_data(self):
+    def train(self):
         raise NotImplementedError
