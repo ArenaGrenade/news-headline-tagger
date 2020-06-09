@@ -16,20 +16,20 @@ def trainEmbedder(tokenized_dataset, feature_size, filename):
 """
 
 
-def getProcessedData():
+def getProcessedData(config):
 #    tokenizer = SentenceToVector.bag_of_words_converter.BOWConvert()
     train_data = []
     test_data = []
     train_labels = []
     test_labels = []
-    with open("C:/Users/rohan/Documents/coding/python/news-headline-tagger/datasets/training _data/training_data.csv",
+    with open(config.exp.dir_path + "/news-headline-tagger/datasets/training _data/training_data.csv",
               newline='', encoding='utf-8') as train_file:
         csvreader = csv.reader(train_file)
         for row in csvreader:
             train_data.append((re.sub('[^a-z]', ' ', (row[0] + ' ' + row[1]).lower())).split())
             train_labels.append(int(row[2]))
 
-    with open("C:/Users/rohan/Documents/coding/python/news-headline-tagger/datasets/test_data/test_data.csv",
+    with open(config.exp.dir_path + "/news-headline-tagger/datasets/test_data/test_data.csv",
               newline='', encoding='utf-8') as test_file:
         csvreader = csv.reader(test_file)
         for row in csvreader:
@@ -38,7 +38,3 @@ def getProcessedData():
             test_labels.append(int(row[2]))
 
     return (train_data, np.array(train_labels)), (test_data, np.array(test_labels))
-
-
-if __name__ == '__main__':
-    getProcessedData()
