@@ -2,9 +2,9 @@ import csv
 import re
 import numpy as np
 
-import SentenceToVector
+#import SentenceToVector
 
-
+"""
 def trainEmbedder(tokenized_dataset, feature_size, filename):
     print("training the model")
     s2v = SentenceToVector.WordToVector(train_new_model=True,
@@ -13,6 +13,7 @@ def trainEmbedder(tokenized_dataset, feature_size, filename):
     model_file = "C:\\Users\\rohan\\Documents\\Coding\\Python\\news-headline-tagger\\models\\embedder\\" + filename
     print("saving model now")
     s2v.to_train_model.wv.save(model_file)
+"""
 
 
 def getProcessedData():
