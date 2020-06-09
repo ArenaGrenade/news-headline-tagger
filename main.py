@@ -39,8 +39,6 @@ def main():
             model.load_weights(latest)
 
     print("Create the trainer.")
-    print(type(train_seq))
-    print(type(train_labels))
     trainer = CNNModelTrainer(model, train_seq, train_labels, config)
 
     print("Start training the model.")
