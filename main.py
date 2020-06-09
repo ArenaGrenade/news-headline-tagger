@@ -4,6 +4,7 @@ from trainers.CNN_tagger_trainer import CNNModelTrainer
 from utils.config import processConfig
 from utils.dirs import createMissingDirectories
 from utils.args import get_args
+from tensorflow.train import latest_checkpoint
 
 GLOVE_PATH = "C:/Users/rohan/Documents/coding/python/news-headline-tagger/glove.6B.300d.txt"
 MAX_SEQ_LEN = 300
@@ -31,6 +32,11 @@ def main():
     train_seq, test_seq, wv_mat = embeddingLayerBuild(glove_model, train_data, test_data, MAX_SEQ_LEN, WV_DIM, NB_WORDS)
     model_class = ConvTaggerModel(config, MAX_SEQ_LEN, NB_WORDS, WV_DIM, wv_mat)
     model = model_class.buildModel()
+
+    if config.saveorload.load:
+        latest = latest_checkpoint(config.callbacks.checkpoint_dir)
+        if latest is not None:
+            model.load_weights(latest)
 
     print("Create the trainer.")
     print(type(train_seq))

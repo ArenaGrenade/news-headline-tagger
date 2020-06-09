@@ -1,5 +1,6 @@
 import csv
 import re
+import numpy as np
 
 import SentenceToVector
 
@@ -15,7 +16,7 @@ def trainEmbedder(tokenized_dataset, feature_size, filename):
 
 
 def getProcessedData():
-    tokenizer = SentenceToVector.bag_of_words_converter.BOWConvert()
+#    tokenizer = SentenceToVector.bag_of_words_converter.BOWConvert()
     train_data = []
     test_data = []
     train_labels = []
@@ -35,7 +36,7 @@ def getProcessedData():
             test_data.append((re.sub('[^a-z]', ' ', (row[0] + ' ' + row[1]).lower())).split())
             test_labels.append(int(row[2]))
 
-    return (train_data, SentenceToVector.np.array(train_labels)), (test_data, SentenceToVector.np.array(test_labels))
+    return (train_data, np.array(train_labels)), (test_data, np.array(test_labels))
 
 
 if __name__ == '__main__':
