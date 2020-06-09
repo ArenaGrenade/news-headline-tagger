@@ -1,7 +1,8 @@
 {
   "exp": {
     "name": "conv_tagger",
-    "dir_path": "/content/gdrive/My Drive/Conv_Headline_Tagger/"
+    "dir_path": "/content/gdrive/My Drive/Conv_Headline_Tagger/",
+    "GLOVE_PATH": "/content/gdrive/My Drive/Conv_Headline_Tagger/news-headline-tagger/glove.6B.300d.txt"
   },
   "model": {
     "learning_rate": 0.1,

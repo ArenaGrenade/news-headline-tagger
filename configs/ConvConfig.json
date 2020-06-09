@@ -1,7 +1,8 @@
 {
   "exp": {
     "name": "conv_tagger",
-    "dir_path": "C:/Users/Documents/Coding/python/"
+    "dir_path": "C:/Users/Documents/Coding/python/",
+    "GLOVE_PATH": "C:/Users/rohan/Documents/coding/python/news-headline-tagger/glove.6B.300d.txt"
   },
   "model": {
     "learning_rate": 0.1,

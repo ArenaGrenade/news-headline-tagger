@@ -6,7 +6,6 @@ from utils.dirs import createMissingDirectories
 from utils.args import get_args
 from tensorflow.train import latest_checkpoint
 
-GLOVE_PATH = "C:/Users/rohan/Documents/coding/python/news-headline-tagger/glove.6B.300d.txt"
 MAX_SEQ_LEN = 300
 WV_DIM = 300
 NB_WORDS = 0
@@ -28,7 +27,7 @@ def main():
     test_data, test_labels = data_loader.getTestData()
 
     print("Creating model.")
-    glove_model, NB_WORDS = load_glove_model(GLOVE_PATH)
+    glove_model, NB_WORDS = load_glove_model(config.exp.GLOVE_PATH)
     train_seq, test_seq, wv_mat = embeddingLayerBuild(glove_model, train_data, test_data, MAX_SEQ_LEN, WV_DIM, NB_WORDS)
     model_class = ConvTaggerModel(config, MAX_SEQ_LEN, NB_WORDS, WV_DIM, wv_mat)
     model = model_class.buildModel()
