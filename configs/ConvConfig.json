@@ -2,6 +2,10 @@
   "exp": {
     "name": "conv_tagger"
   },
+  "model": {
+    "learning_rate": 0.1,
+    "momentum": 0.6
+  },
   "trainer":{
     "num_epochs": 500,
     "batch_size": 64,

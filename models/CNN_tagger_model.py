@@ -84,7 +84,27 @@ class ConvTaggerModel(AbstractModel):
         self.model = Model(inputs=[title_input], outputs=cat)
 
         self.model.compile(loss='sparse_categorical_crossentropy',
-                           optimizer=SGD(learning_rate=0.001, momentum=0.6, nesterov=False),
+                           optimizer=SGD(
+                               learning_rate=0.001,
+                               momentum=0.6,
+                               nesterov=False
+                           ),
+                           metrics=['SparseCategoricalAccuracy']
+                           )
+        flat = Flatten()(pool3)
+
+        dense = Dense(2048, activation='relu')(flat)
+
+        cat = Dense(7, activation='softmax')(dense)
+
+        self.model = Model(inputs=[title_input], outputs=cat)
+
+        self.model.compile(loss='sparse_categorical_crossentropy',
+                           optimizer=SGD(
+                               learning_rate=self.config.model.learning_rate,
+                               momentum=self.config.model.momentum,
+                               nesterov=False
+                           ),
                            metrics=['SparseCategoricalAccuracy']
                            )
 
