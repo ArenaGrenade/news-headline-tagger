@@ -34,7 +34,7 @@ def embeddingLayerBuild(model, train_data, test_data, MAX_SEQ_LEN, WV_DIM, NB_WO
     for word, (ind, embedding) in model.items():
         wv_matrix[ind-1] = embedding
 
-    return train_sequences, test_data, wv_matrix
+    return train_sequences, test_sequences, wv_matrix
 
 
 class ConvTaggerModel(AbstractModel):
@@ -60,40 +60,23 @@ class ConvTaggerModel(AbstractModel):
         word_embeddings = wv_layer(title_input)
 #        print(word_embeddings.shape)
 
-        conv1 = Conv1D(1024, 5, activation='relu')(word_embeddings)
+        conv1 = Conv1D(512, 5, activation='relu')(word_embeddings)
 #        print(conv1.shape)
-        pool1 = MaxPooling1D(3)(conv1)
+        pool1 = MaxPooling1D(5)(conv1)
 #        print(pool1.shape)
 
-        conv2 = Conv1D(1024, 5, activation='relu')(pool1)
+        conv2 = Conv1D(512, 5, activation='relu')(pool1)
 #        print(conv2.shape)
-        pool2 = MaxPooling1D(3)(conv2)
+        pool2 = MaxPooling1D(5)(conv2)
 #        print(pool2.shape)
 
-        conv3 = Conv1D(1024, 3, activation='relu')(pool2)
+#        conv3 = Conv1D(512, 3, activation='relu')(pool2)
 #        print(conv3.shape)
-        pool3 = MaxPooling1D(3)(conv3)
+#        pool3 = MaxPooling1D(3)(conv3)
 #        print(pool3.shape)
-
-        flat = Flatten()(pool3)
-
-        dense = Dense(2048, activation='relu')(flat)
-
-        cat = Dense(7, activation='softmax')(dense)
-
-        self.model = Model(inputs=[title_input], outputs=cat)
-
-        self.model.compile(loss='sparse_categorical_crossentropy',
-                           optimizer=SGD(
-                               learning_rate=0.001,
-                               momentum=0.6,
-                               nesterov=False
-                           ),
-                           metrics=['SparseCategoricalAccuracy']
-                           )
-        flat = Flatten()(pool3)
-
-        dense = Dense(2048, activation='relu')(flat)
+#        flat = Flatten()(pool3)
+        flat = Flatten()(pool2)
+        dense = Dense(256, activation='relu')(flat)
 
         cat = Dense(7, activation='softmax')(dense)
 

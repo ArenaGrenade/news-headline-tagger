@@ -19,7 +19,8 @@
     "checkpoint_save_best_only": true,
    "checkpoint_save_weights_only": true,
     "checkpoint_verbose": 0,
-    "tensorboard_write_graph": true
+    "tensorboard_write_graph": true,
+    "checkpoint_update_freq": 5
   },
   "saveorload": {
     "load": true

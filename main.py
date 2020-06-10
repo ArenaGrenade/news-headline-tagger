@@ -5,8 +5,11 @@ from utils.config import processConfig
 from utils.dirs import createMissingDirectories
 from utils.args import get_args
 from tensorflow.train import latest_checkpoint
+# import os
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-MAX_SEQ_LEN = 300
+
+MAX_SEQ_LEN = 100
 WV_DIM = 300
 NB_WORDS = 0
 
@@ -28,7 +31,7 @@ def main():
 
     print("Creating model.")
     glove_model, NB_WORDS = load_glove_model(config.exp.GLOVE_PATH)
-    train_seq, test_seq, wv_mat = embeddingLayerBuild(glove_model, train_data, test_data, MAX_SEQ_LEN, WV_DIM, NB_WORDS)
+    train_data, test_data, wv_mat = embeddingLayerBuild(glove_model, train_data, test_data, MAX_SEQ_LEN, WV_DIM, NB_WORDS)
     model_class = ConvTaggerModel(config, MAX_SEQ_LEN, NB_WORDS, WV_DIM, wv_mat)
     model = model_class.buildModel()
 
@@ -37,8 +40,10 @@ def main():
         if latest is not None:
             model.load_weights(latest)
 
+    print(model.summary())
+
     print("Create the trainer.")
-    trainer = CNNModelTrainer(model, train_seq, train_labels, config)
+    trainer = CNNModelTrainer(model, train_data, train_labels, (test_data, test_labels), config)
 
     print("Start training the model.")
     trainer.train()

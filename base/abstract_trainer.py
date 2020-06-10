@@ -4,6 +4,7 @@ class AbstractTrainer(object):
         self.data = data
         self.labels = labels
         self.config = config
+        self.test_data = test_data
 
     def train(self):
         raise NotImplementedError

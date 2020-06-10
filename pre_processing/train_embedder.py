@@ -22,7 +22,7 @@ def getProcessedData(config):
     test_data = []
     train_labels = []
     test_labels = []
-    with open(config.exp.dir_path + "/news-headline-tagger/datasets/training _data/training_data.csv",
+    with open(config.exp.dir_path + "/news-headline-tagger/datasets/training_data/training_data.csv",
               newline='', encoding='utf-8') as train_file:
         csvreader = csv.reader(train_file)
         for row in csvreader:

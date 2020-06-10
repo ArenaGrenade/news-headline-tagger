@@ -4,8 +4,8 @@ from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStoppi
 
 
 class CNNModelTrainer(AbstractTrainer):
-    def __init__(self, model, data, labels, config):
-        super(CNNModelTrainer, self).__init__(model, data, labels, config)
+    def __init__(self, model, data, labels, test_data, config):
+        super(CNNModelTrainer, self).__init__(model, data, labels, test_data, config)
         self.callbacks = []
         self.loss = []
         self.acc = []
@@ -22,7 +22,7 @@ class CNNModelTrainer(AbstractTrainer):
                 # save_best_only=self.config.callbacks.checkpoint_save_best_only,
                 save_weights_only=self.config.callbacks.checkpoint_save_weights_only,
                 verbose=self.config.callbacks.checkpoint_verbose,
-                save_freq=5
+                save_freq=self.config.callbacks.checkpoint_update_freq
             )
         )
 
@@ -42,13 +42,14 @@ class CNNModelTrainer(AbstractTrainer):
         )
 
     def train(self):
+        print("Now fitting the model.")
         history = self.model.fit(
             self.data, self.labels,
             epochs=self.config.trainer.num_epochs,
             verbose=self.config.trainer.verbose_training,
             batch_size=self.config.trainer.batch_size,
             callbacks=self.callbacks,
-            validation_split=0.2,
+            validation_data=self.test_data,
             shuffle=True
         )
         self.loss.extend(history.history['loss'])
