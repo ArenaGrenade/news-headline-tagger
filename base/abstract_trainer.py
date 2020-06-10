@@ -1,5 +1,5 @@
 class AbstractTrainer(object):
-    def __init__(self, model, data, labels, config):
+    def __init__(self, model, data, labels, test_data, config):
         self.model = model
         self.data = data
         self.labels = labels
